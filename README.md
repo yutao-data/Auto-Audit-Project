@@ -10,13 +10,13 @@ http://www.cninfo.com.cn/
 
 http://www.cninfo.com.cn/new/fulltextSearch?notautosubmit=&keyWord=xxx%20%xxxx%20xxx
 
-![image-20211014230816084](/home/cyt/.config/Typora/typora-user-images/image-20211014230816084.png)
+![image-target](https://github.com/A-hungry-wolf/Auto-Audit-Project/blob/main/images/target.png)
 
 包含"*董事会 审计意见 专项说明*"关键词的搜索结果
 
 ## Arrow
 
-![image-20211014232038898](/home/cyt/.config/Typora/typora-user-images/image-20211014232038898.png)
+![image-arrow](https://github.com/A-hungry-wolf/Auto-Audit-Project/blob/main/images/arrow.png)
 
 (sorry the xlsx file already expired in my phone, I lost this file)
 
