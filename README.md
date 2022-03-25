@@ -1,5 +1,11 @@
 # NLP For Accounting
 
+## 目录结构
+
+- `firms.csv` 报告列表
+
+- `pdf` PDF 文件目录
+
 ## Data source
 
 <http://www.cninfo.com.cn/>
