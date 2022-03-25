@@ -14,6 +14,10 @@
 
 - `make-dataset` 使用从财务数据 `fina_indicator.csv` 中提取次年 ROA ROE 作为 target。生成 `target.csv` `source.csv` 作为训练的 source 和 target
 
+- `train.py` 训练 生成 model.pth 模型参数文件
+
+- `pth-to-csv.py` 将 pth 文件转换为人类可读的 csv 格式
+
 ## Data source
 
 <http://www.cninfo.com.cn/>
