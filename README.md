@@ -10,6 +10,8 @@
 
 - `txt` TXT 文件目录，由 `convert-pdf-to-txt` 和 `pdf` 构建
 
+- `term-analysis.py` 词频分析，生成词频 `cross-tf.py` 和 总词频统计 `total-term-count.py`
+
 ## Data source
 
 <http://www.cninfo.com.cn/>
