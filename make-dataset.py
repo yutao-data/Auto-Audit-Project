@@ -15,7 +15,8 @@ def main():
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=args.log_level, format='%(asctime)s %(levelname)s %(message)s')
+    logging.basicConfig(level=args.log_level,
+                        format='%(asctime)s %(levelname)s %(message)s')
 
     logging.info('读取 firms.csv')
     firms_df = pandas.read_csv('firms.csv')
@@ -56,11 +57,13 @@ def main():
         year = int(year)
         target_year = year + 1
         target_id = '%s-%d' % (code, target_year)
-        if not target_id in roa_roe_df.index:
+        if target_id not in roa_roe_df.index:
             return numpy.nan
         return roa_roe_df.loc[target_id, label]
+
     def map_get_target_roa(id):
         return map_get_target(id, label='roa')
+
     def map_get_target_roe(id):
         return map_get_target(id, label='roe')
     target = pandas.DataFrame()
@@ -78,11 +81,12 @@ def main():
     # 因为 cross_tf 是所有文本的词频
     # 2020年的文本无法作为输入，没有次年数据，所以需要去除
     source = pandas.DataFrame()
-    source.index=target.index
+    source.index = target.index
     source = source.merge(cross_tf, on='id')
     logging.info('保存 source.csv')
     source.to_csv('source.csv')
     source
+
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,11 @@
 # NLP For Accounting
 
+克隆仓库后先设置 `pre-commit` 钩子
+
+```txt
+git config core.hooksPath .githooks
+```
+
 ## 目录结构
 
 - `firms.csv` 报告列表

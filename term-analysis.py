@@ -11,7 +11,8 @@ import logging
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Term Analysis', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description='Term Analysis',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--txt_dir', type=str, default='./txt',
                         help='txt directory')
     parser.add_argument('--show_img', action='store_true',
@@ -60,8 +61,34 @@ def main():
                 add(tf_dict[id], word, 1)
 
     # 删除标点符号和无实义词
-    del_list = ['，', ',', '的', ' ', '。', '、', '【', '】', '！', '75%', '70%', 'cn', 'Ｏ', 'com', 'www',
-                '(', ')', '"', '“', '”', '）', '（', '《', '》', '：', ':', '；']
+    del_list = [
+        '，',
+        ',',
+        '的',
+        ' ',
+        '。',
+        '、',
+        '【',
+        '】',
+        '！',
+        '75%',
+        '70%',
+        'cn',
+        'Ｏ',
+        'com',
+        'www',
+        '(',
+        ')',
+        '"',
+        '“',
+        '”',
+        '）',
+        '（',
+        '《',
+        '》',
+        '：',
+        ':',
+        '；']
     old_dict = tf_dict
     tf_dict = {}
     for id in tqdm.tqdm(old_dict, desc='删除标点符号和无实义词'):
@@ -119,7 +146,11 @@ def main():
                 frequency = numpy.nan
             result.append(frequency)
         return result
-    for term in tqdm.tqdm(cross_tf_df, total=len(cross_tf_df.keys()), desc='计算文档词频'):
+    for term in tqdm.tqdm(
+            cross_tf_df,
+            total=len(
+                cross_tf_df.keys()),
+            desc='计算文档词频'):
         cross_tf_df[term] = map_to_cross_tf(term)
     # 删除均为nan的行，并用 0 填充缺失值
     cross_tf_df = cross_tf_df.dropna(how='all').fillna(0)
@@ -149,11 +180,11 @@ def isNumber(s: str) -> bool:
     try:
         int(s)
         return True
-    except:
+    except BaseException:
         try:
             float(s)
             return True
-        except:
+        except BaseException:
             return False
 
 

@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+# exec find | grep .py | xargs -n 1 -I {} env python3 -m autopep8 -i -v -a -a {}
+if $(env python3 -m autopep8 -i -v -a -a --exit-code $(git diff --cached --name-only | egrep '\.py$')); then
+	echo "autopep8 completed"
+else
+	echo "[Error!]: autopep8 has changed your code, please review and commit again"
+fi
+
+# If there are whitespace errors, print the offending file names and fail.
+exec git diff --check --cached --

@@ -18,14 +18,24 @@ def main():
     """
     Main function.
     """
-    parser = argparse.ArgumentParser(description='Convert PDF to TXT.',
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description='Convert PDF to TXT.',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        '--pdf_dir', help='Path to the PDF file directory.', type=str, default='./pdf')
+        '--pdf_dir',
+        help='Path to the PDF file directory.',
+        type=str,
+        default='./pdf')
     parser.add_argument(
-        '--txt_dir', help='Path to the TXT file directory.', type=str, default='./txt')
+        '--txt_dir',
+        help='Path to the TXT file directory.',
+        type=str,
+        default='./txt')
     parser.add_argument(
-        '--overwrite', help='Overwrite existing TXT files.', action='store_true', default=False)
+        '--overwrite',
+        help='Overwrite existing TXT files.',
+        action='store_true',
+        default=False)
 
     args = parser.parse_args()
     parser.parse_args(namespace=args)

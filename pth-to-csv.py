@@ -8,15 +8,17 @@ import pandas
 
 def main():
     parser = argparse.ArgumentParser(
-        description='将模型参数转换为csv文件', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description='将模型参数转换为csv文件',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--model', type=str,
                         default='model.pth', help='模型参数文件')
     parser.add_argument('--csv', type=str,
                         default='model.csv', help='输出的csv文件')
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     logging.info(f'加载模型参数文件 {args.model}')
     data = torch.load(args.model, map_location='cpu')

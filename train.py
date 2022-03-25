@@ -16,7 +16,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def main():
     parser = argparse.ArgumentParser(
-        "Train a model", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        "Train a model",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--batch_size', type=int, default=14)
     parser.add_argument('--epochs', type=int, default=3900)
     parser.add_argument('--lr', type=float, default=0.001)
@@ -43,7 +44,7 @@ def main():
     # auto learning rate
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, 'min', patience=100, verbose=True)
-    weight = torch.tensor([1/dataset.weight_dict[i]
+    weight = torch.tensor([1 / dataset.weight_dict[i]
                           for i in range(len(dataset.weight_dict))])
     weight = weight.to(device)
     print('weight:', weight)
