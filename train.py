@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--log_level', type=str, default='INFO')
     parser.add_argument('--show_loss_history', action='store_false')
+    parser.add_argument('--test_size', type=float, default=0.2)
     args = parser.parse_args()
 
     logging.basicConfig(level=args.log_level,
@@ -75,7 +76,7 @@ def main():
     # model.load_state_dict(torch.load('model.pth'))
 
     # test
-    test_dataset = DataSet(test=True)
+    test_dataset = DataSet(test=True, test_size=args.test_size)
     test_dataloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=16, shuffle=True)
     test_loss = 0
@@ -113,7 +114,7 @@ class Model(torch.nn.Module):
 
 
 class DataSet(torch.utils.data.Dataset):
-    def __init__(self, test=False):
+    def __init__(self, test=False, test_size=0.2):
         self.source = torch.tensor(pandas.read_csv(
             'source.csv', index_col='id').values).float()
         self.target = torch.tensor(pandas.read_csv(
@@ -126,13 +127,12 @@ class DataSet(torch.utils.data.Dataset):
         random.Random(luckly_number).shuffle(self.source)
         random.Random(luckly_number).shuffle(self.target)
 
-        num = 100
         if test:
-            self.source = self.source[:num]
-            self.target = self.target[:num]
+            self.source = self.source[:int(len(self.source) * test_size)]
+            self.target = self.target[:int(len(self.target) * test_size)]
         else:
-            self.source = self.source[num:]
-            self.target = self.target[num:]
+            self.source = self.source[int(len(self.source) * test_size):]
+            self.target = self.target[int(len(self.target) * test_size):]
 
         self.weight_dict = {}
         for i in range(len(self.source)):
