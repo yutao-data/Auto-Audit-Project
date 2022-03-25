@@ -60,7 +60,7 @@ def main():
                 add(tf_dict[id], word, 1)
 
     # 删除标点符号和无实义词
-    del_list = ['，', ',', '的', ' ', '。', '、',
+    del_list = ['，', ',', '的', ' ', '。', '、', '【', '】', '！', '75%', '70%', 'cn', 'Ｏ', 'com', 'www',
                 '(', ')', '"', '“', '”', '）', '（', '《', '》', '：', ':', '；']
     old_dict = tf_dict
     tf_dict = {}
@@ -150,7 +150,11 @@ def isNumber(s: str) -> bool:
         int(s)
         return True
     except:
-        return False
+        try:
+            float(s)
+            return True
+        except:
+            return False
 
 
 def get_paragraphs(filename: str) -> list[str]:
