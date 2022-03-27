@@ -32,7 +32,7 @@ def main():
     logging.info('Using device: {}'.format(device))
 
     logging.info('Loading data...')
-    dataset = DataSet()
+    dataset = DataSet(test_size=args.test_size)
     dataloader = torch.utils.data.DataLoader(
         dataset, batch_size=args.batch_size, shuffle=True)
 
@@ -115,7 +115,9 @@ class Model(torch.nn.Module):
 
 
 class DataSet(torch.utils.data.Dataset):
-    def __init__(self, test=False, test_size=0.2):
+    def __init__(self, test=False, test_size=0):
+        if not test_size:
+            logging.ERROR('test_size must be set')
         self.source = torch.tensor(pandas.read_csv(
             'source.csv', index_col='id').values).float()
         self.target = torch.tensor(pandas.read_csv(
@@ -123,10 +125,6 @@ class DataSet(torch.utils.data.Dataset):
         print('DataSet loaded', self.source.shape, self.target.shape)
 
         self.input_size = self.source.shape[1]
-
-        luckly_number = random.random()
-        random.Random(luckly_number).shuffle(self.source)
-        random.Random(luckly_number).shuffle(self.target)
 
         if test:
             self.source = self.source[:int(len(self.source) * test_size)]

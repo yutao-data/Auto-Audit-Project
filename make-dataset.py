@@ -6,6 +6,7 @@ import tqdm
 import logging
 import os
 import argparse
+import random
 
 
 def main():
@@ -50,6 +51,9 @@ def main():
 
     logging.info('读取 cross-tf.csv')
     cross_tf = pandas.read_csv('cross-tf.csv', index_col='id')
+    logging.info('打乱 id 列表顺序')
+    cross_tf_shuffle_index = cross_tf.index.tolist()
+    random.shuffle(cross_tf_shuffle_index)
 
     # 使用次年的ROA和ROE作为target
     def map_get_target(id, label='roa'):
@@ -67,7 +71,7 @@ def main():
     def map_get_target_roe(id):
         return map_get_target(id, label='roe')
     target = pandas.DataFrame()
-    target['id'] = cross_tf.index
+    target['id'] = cross_tf_shuffle_index
     target.set_index('id', inplace=True)
     target['target_roe'] = target.index.map(map_get_target_roe)
     target['target_roa'] = target.index.map(map_get_target_roa)
