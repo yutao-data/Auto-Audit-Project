@@ -12,7 +12,7 @@ git config core.hooksPath .githooks
 
 - `pdf` PDF 文件目录
 
-- `convert-pdf-to-txt' 转换 PDF 到 TXT
+- `convert-pdf-to-txt` 转换 PDF 到 TXT
 
 - `txt` TXT 文件目录，由 `convert-pdf-to-txt` 和 `pdf` 构建
 
