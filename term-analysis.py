@@ -15,6 +15,8 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--txt_dir', type=str, default='./txt',
                         help='txt directory')
+    parser.add_argument('--min_count', type=int, default=8,
+                        help='min term count filter (default 8)')
     parser.add_argument('--show_img', action='store_true',
                         help='生成并显示词频分析图片')
     parser.add_argument('--save_img', type=str, default='',
@@ -123,8 +125,8 @@ def main():
     logging.info('保存所有文档合并在一起的词频统计结果 total-term-count.csv')
     total_tf_df.to_csv('total-term-count.csv')
 
-    # 筛选出词频在 2 次以上的词语
-    selected_tf_df = total_tf_df[total_tf_df['count'] > 2]
+    # 筛选掉词频过低的词语
+    selected_tf_df = total_tf_df[total_tf_df['count'] > args.min_count]
 
     # 生成词向量表 可能需要一段时间
     # 对于每个词语，返回在所有文本中出现次数的情况
