@@ -107,6 +107,14 @@ def main():
     words_count = {}
     for id in tf_dict:
         words_count[id] = sum(tf_dict[id].values())
+    words_count_df = pandas.DataFrame(words_count.items(),
+                                      columns=['id', 'words_count'])
+    words_count_df.set_index('id', inplace=True)
+    # 过滤掉词频为 0 的文档（因为部分PDF为图片，无法转成文本）
+    words_count_df = words_count_df[words_count_df['words_count'] > 0]
+    logging.info('保存各个文档词数统计 document-words-count.csv ，文档数量：%d' %
+                 len(words_count_df))
+    words_count_df.to_csv('document-words-count.csv')
 
     #  所有文档合并在一起的词频统计。
     # key 是 词语，value 是该词语在所有文档内出现次数加总。
