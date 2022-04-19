@@ -35,7 +35,7 @@ def main():
         df = indicator_df[
             (indicator_df['ts_code'] == ts_code) &
             (indicator_df['end_date'].map(str).str.endswith('1231'))
-        ][['ts_code', 'end_date', 'roe', 'roa']]
+        ][['ts_code', 'end_date', 'roa']]
         if not df.all().all():
             print(df)
         result.append(df)
@@ -67,16 +67,14 @@ def main():
 
     def map_get_target_roa(id):
         return map_get_target(id, label='roa')
-
-    def map_get_target_roe(id):
-        return map_get_target(id, label='roe')
     target = pandas.DataFrame()
     target['id'] = cross_tf_shuffle_index
     target.set_index('id', inplace=True)
-    target['target_roe'] = target.index.map(map_get_target_roe)
     target['target_roa'] = target.index.map(map_get_target_roa)
     # 删除2020年的数据，因为没有次年的数据
     target = target[~target.index.str.endswith('2020')]
+    # 删除任何包括空值的行
+    target.dropna(how='any', inplace=True)
     logging.info('保存 target.csv')
     target.to_csv('target.csv')
 
