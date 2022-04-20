@@ -71,6 +71,9 @@ def main():
     target['id'] = cross_tf_shuffle_index
     target.set_index('id', inplace=True)
     target['target_roa'] = target.index.map(map_get_target_roa)
+    # 保存
+    logging.info('保存 next-year-roa.csv')
+    target.to_csv('next-year-roa.csv')
     # 删除2020年的数据，因为没有次年的数据
     target = target[~target.index.str.endswith('2020')]
     # 删除任何包括空值的行
