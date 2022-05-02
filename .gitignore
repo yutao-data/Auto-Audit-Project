@@ -3,6 +3,7 @@ cross-tf.csv
 total-term-count.csv
 target.csv
 source.csv
+next-year-roa.csv
 model.pth
 model.csv
 document-words-count.csv
