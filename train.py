@@ -49,6 +49,7 @@ def main():
     weight = weight.to(device)
     print('weight:', weight)
     loss_func = torch.nn.CrossEntropyLoss(weight=weight)
+    loss_func = torch.nn.MSELoss()
 
     history = []
     epoch_num = args.epochs
@@ -59,7 +60,7 @@ def main():
             inputs, labels = inputs.to(device), labels.to(device)
             # print('labels:', labels)
             outputs = model(inputs)
-            pred = torch.nn.functional.softmax(outputs, dim=1).argmax(dim=1)
+            # pred = torch.nn.functional.softmax(outputs, dim=1).argmax(dim=1)
             # print('  pred:', pred)
             loss = loss_func(outputs, labels)
             optimizer.zero_grad()
@@ -67,7 +68,7 @@ def main():
             optimizer.step()
             history.append(loss.item())
 
-        pbar.set_description('Train loss: %.8f' % numpy.mean(history[-100:]))
+        pbar.set_description('Train loss: %.8f' % numpy.mean(history[-10:]))
         scheduler.step(numpy.mean(history[-100:]))
 
     # save model
@@ -80,22 +81,17 @@ def main():
     test_dataset = DataSet(test=True, test_size=args.test_size)
     test_dataloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=16, shuffle=True)
-    test_loss = 0
-    test_correct = 0
-    total_count = 0
+    test_loss = []
     with torch.no_grad():
         for i, (inputs, labels) in enumerate(test_dataloader):
             inputs, labels = inputs.to(device), labels.to(device)
             outputs = model(inputs)
-            pred = torch.nn.functional.softmax(outputs, dim=1).argmax(dim=1)
             loss = loss_func(outputs, labels)
-            test_loss += loss.item()
-            test_correct += torch.sum(pred == labels).item()
-            total_count += len(labels)
+            test_loss.append(loss.item())
             print('labels:', labels)
-            print('  pred:', pred)
+            print('  pred:', outputs)
             print('----------------------------------------')
-        print('Test Accuracy: {}'.format(test_correct / total_count))
+        print('Test loss: {}'.format(numpy.mean(test_loss[-10:])))
 
     if args.show_loss_history:
         plt.plot(history)
@@ -106,7 +102,7 @@ def main():
 class Model(torch.nn.Module):
     def __init__(self, input_size):
         super(Model, self).__init__()
-        self.fc1 = torch.nn.Linear(input_size, 2)
+        self.fc1 = torch.nn.Linear(input_size, 1)
 
     def forward(self, x):
         x = self.fc1(x)
@@ -148,11 +144,6 @@ class DataSet(torch.utils.data.Dataset):
     def __getitem__(self, index):
         source = self.source[index]
         target = self.target[index]
-
-        if target > 0:
-            target = 0
-        else:
-            target = 1
 
         # normalization
         source = (source - source.mean()) / source.std()
