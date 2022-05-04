@@ -7,6 +7,7 @@ import numpy
 import tqdm
 import argparse
 import logging
+import math
 
 
 def main():
@@ -164,6 +165,11 @@ def main():
         cross_tf_df[term] = map_to_cross_tf(term)
     # 删除均为nan的行，并用 0 填充缺失值
     cross_tf_df = cross_tf_df.dropna(how='all').fillna(0)
+
+    # 计算 tf-idf
+    idf = (len(cross_tf_df) / (cross_tf_df > 0).sum()).map(math.log10)
+    cross_tf_df = cross_tf_df * idf
+
     logging.info('保存词向量表 cross-tf.csv')
     cross_tf_df.to_csv('cross-tf.csv')
 
