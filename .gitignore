@@ -6,5 +6,6 @@ source.csv
 next-year-roa.csv
 model.pth
 model.csv
+roa.csv
 document-words-count.csv
 __pycache__
