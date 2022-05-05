@@ -27,8 +27,7 @@ def main():
 
     df = pandas.DataFrame()
     df['词语'] = source.keys().tolist()
-    df['积极权重'] = data['fc1.weight'][0]
-    df['消极权重'] = data['fc1.weight'][1]
+    df['权重'] = data['fc1.weight'][0]
 
     df.set_index('词语', inplace=True)
 
