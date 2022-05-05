@@ -101,6 +101,9 @@ def main():
                 continue
             if isNumber(d):
                 continue
+            # 删掉长度为 1 的词
+            if len(d) == 1:
+                continue
             tf_dict[id][d] = old_dict[id][d]
 
     # key 为 id, value 为该文档内词数总计。用于后面计算词频作为被除数
